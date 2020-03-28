@@ -55,8 +55,6 @@ Adjusting camera functions
 play realtime: 
 	ffplay /dev/video0
 
-https://www.acmesystems.it/ffmpeg
-
 ============================================================
 
 https://wiki.archlinux.org/index.php/FFmpeg
@@ -74,3 +72,7 @@ To take a screencast screen.mkv with lossless encoding and without audio:
 To take a screenshot screen.png: 
 	ffmpeg -f x11grab -video_size 1920x1080 -i $DISPLAY -vframes 1 screen.png
 	feh screen.png
+	
+	
+============================================================
+sudo apt install obs-studio
