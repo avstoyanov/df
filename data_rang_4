@@ -1,0 +1,76 @@
+
+journalctl | grep "systemd\[1\]\: Startup" > ~/startuptimes
+
+cat startuptimes | sed -E 's/.* = (.*)s\./\1/'
+
+cat startuptimes | sed -E 's/.* = (.*)s\./\1/' | grep min | sed -E 's/(.*)min (.*)$/\1*60+\2/; s/\+(.*)m/\+0.\1/'
+
+cat startuptimes | sed -E 's/.* = (.*)s\./\1/; s/(.*)min (.*)$/\1*60+\2/; s/(\w*)m/0.\1/' | grep 854
+
+cat startuptimes | sed -E 's/.* = (.*)s\./\1/; s/(.*)min (.*)$/\1*60+\2/; s/([0-9]*)m/0.\1/' | grep 854
+
+cat startuptimes | sed -E 's/.* = (.*)s\./\1/; s/(.*)min (.*)$/\1*60+\2/; s/\+(.*)m/\+0.\1/' | grep 854
+
+journalctl | grep "systemd\[1\]\: Startup" | sed -E 's/.* = (.*)s\./\1/; s/(.*)min (.*)$/\1*60+\2/; s/([0-9]*)m/0.\1/' > startuptimes2
+---------
+
+journalctl | grep "systemd\[1\]\: Startup" | sed -E 's/.* = (.*)s\./\1/; s/(.*)min (.*)$/\1*60+\2/; s/([0-9]*)m/0.\1/' | bc -l > startuptimes3
+
+sort -n startuptimes3 | echo $(($(wc -l)/2 + 1))
+
+sort -n startuptimes3 | echo "max: $(tail -n1)" > bootdata
+
+bla=$(cat startuptimes3 | echo $(($(wc -l)/2 + 1))); sort startuptimes3 | head -n$bla | echo "median: $(tail -n1)" >> bootdata
+
+paste -sd+ startuptimes3 | sed -E 's/(.*)/(\1)\//' > calculation; wc -l < startuptimes3 >> calculation; paste -s calculation | echo "mean: $(bc)" >> bootdata
+
+-----------------------------------
+
+cat startuptimes3 | R --slave -e 'x <- scan(file="stdin", quiet=TRUE); summary(x)'
+cat startuptimes3 | R --slave -e 'summary(scan(file="stdin", quiet=TRUE))'
+
+-----------------------------------
+
+journalctl -b --list-boots
+
+-----------------------------------
+==========================================================================================================
+video4linux lib (maybe sudo apt install libv4l-0)
+
+ffmpeg -f v4l2 -list_formats all -i /dev/video0
+		[video4linux2,v4l2 @ 0x55626e25a9c0] Compressed:       mjpeg :          Motion-JPEG : 1280x720 640x480 640x360 352x288 320x240 176x144 160x120
+		[video4linux2,v4l2 @ 0x55626e25a9c0] Raw       :     yuyv422 :           YUYV 4:2:2 : 1280x720 640x480 640x360 352x288 320x240 176x144 160x120
+
+output video to file named 'output.mkv'
+	ffmpeg -f v4l2 -framerate 25 -video_size 640x480 -i /dev/video0 output.mkv
+	
+Adjusting camera functions
+	Brightness, zoom, focus, etc, can be adjusted with v4l2-ctl. Display all controls and their menus:
+	sudo apt install v4l-utils
+	
+		v4l2-ctl -L
+
+		Then adjust the value:
+			v4l2-ctl -c <option>=<value>
+play realtime: 
+	ffplay /dev/video0
+
+https://www.acmesystems.it/ffmpeg
+
+============================================================
+
+https://wiki.archlinux.org/index.php/FFmpeg
+
+screen recording (in screen.mp4 file): 
+
+To take a screencast screen.mp4 with lossy encoding and with audio: 
+	ffmpeg -f x11grab -video_size 1920x1080 -framerate 25 -i $DISPLAY -f alsa -i default -c:v libx264 -preset ultrafast -c:a aac screen.mp4
+	vlc screen.mp4
+
+To take a screencast screen.mkv with lossless encoding and without audio:
+	ffmpeg -f x11grab -video_size 1920x1080 -framerate 25 -i $DISPLAY -c:v ffvhuff screen.mkv
+	vlc screen.mkv
+
+To take a screenshot screen.png: 
+	ffmpeg -f x11grab -video_size 1920x1080 -i $DISPLAY -vframes 1 screen.png
+	feh screen.png
