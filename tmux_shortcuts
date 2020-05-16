@@ -1,0 +1,100 @@
+NOTE:
+	- 'xclip and/or 'xsel' # for clipboard support (...see ~/.tmux.conf)
+	- requires 'PoweLinw'  (maybe 'fonts-powerline' and pip3 install --user powerline-status psutil)
+
+(C-x means ctrl+x, M-x means alt+x)
+
+prefix = C + a		# default prefix: Ctrl + b
+
+###################################################################################################
+###################################################################################################
+
+prefix r 		# reload configuration
+prefix ?		# display a list of keyboard shortcuts
+prefix t		# big clock
+prefix :		# command mode prompt
+
+####### Mouse ###################################################
+prefix m		# turn 'Mouse: ON'
+prefix M		# turn 'Mouse: OFF'
+
+####### Select and Copy (vim keys in copy or choice mode) #######
+prefix [		# enter copy mode (movement with vim keys). Copy mode is also entered when mouse is enabled (see the "Mouse" section)
+v				# begin selection (when in copy mode)
+y				# copy selection and exit copy mode (when in copy mode)
+q				# quit copy mode 
+prefix ]		# paste 
+prefix p		# paste 
+	(paste works with outside documents if 'xsel' or 'xclip' installed and enabled in .tmux.conf)  
+
+####### Sessions ################################################                                            
+	 # ---> Sessions from outside Tmux
+		tmux ls											# List existing sessions
+		tmux kill-server								# Kill all sessions
+		tmux a											# Attach to the first session
+		tmux new -s <session name>						# Creating a named session
+		tmux a -t <session name>						# Attach to an existing session by name
+		tmux new -s <new session> -t <existing session>	# Create a new session that shares all windows with an existing session, but has its own separate notion of which window is current
+						
+	 # ---> Sessions from whithin Tmux
+		prefix Ctrl + c		# new session
+		prefix Ctrl + f 	# find session
+		prefix d			# detach from a session
+		
+		 # ---> Defaults (not set in ~/.tmux.conf,but working): 
+		prefix $			# rename session 
+		prefix (        	# previous session
+		prefix )        	# next session
+		prefix L        	# ‘last’ (previously used) session
+		prefix s        	# choose a session from a list 
+ 
+####### Windows #################################################
+prefix c		# set the new window to be created in the current dir (create new window)
+prefix y		# synchronize all panes in a window (same command in all panes)
+F3				# F3 previous window
+F4				# F4 next window
+
+ # ---> Defaults (not set in ~/.tmux.conf,but working): 
+prefix l		# Move to the previously selected window
+prefix n		# Move to the next window
+prefix 1..9..0. # Switch to window 1, ..., 9, 0  ... etc. 
+prefix ,		# Rename window 
+prefix f		# Search for window name
+prefix w		# Select from interactive list of windows
+prefix Alt + n	# next window with a bell, activity or content alert
+prefix Alt + p	# previous window with a bell, activity or content alert
+prefix <		# context menu (swap windows), 'prefix >" is menu for panes
+prefix &		# kill the current window 
+
+####### Splits (creating Panes) #################################
+prefix \\		# vertical split in current dir (default is: prefix %) ## one of the '\' is an escape
+prefix - s		# horizontal split in current dir (default is: prefix ")
+prefix | 		# full vertical split in current dir
+prefix _		# full horizontal split in current dir
+
+####### Panes ###################################################
+F2				# circle trough panes
+Ctrl + Up		# Ctrl + upper arrow --> resize current pane up
+Ctrl + Down		# Ctrl + down  arrow --> resize current pane down 
+Ctrl + Left		# Ctrl + left  arrow --> resize current pane left 
+Ctrl + Right	# Ctrl + right arrow --> resize current pane right
+
+ # ---> Defaults (not set in ~/.tmux.conf,but working): 
+prefix z		# Zoom current pane
+prefix left		# go to the next pane on the left
+prefix right	# go to the next pane on the right
+prefix up		# go to the next pane on the up
+prefix down		# go to the next pane on the down
+prefix o		# go to the next pane (cycle through all of them)
+prefix ;		# go to the ‘last’ (previously used) pane 
+prefix {		# move the current pane to the previous position
+prefix }		# move the current pane to the next position
+prefix Ctrl + o	# rotate window ‘up’ (i.e. move all panes)
+prefix Alt + o	# rotate window ‘down’
+prefix !		# move the current pane into a new separate window (‘break pane’)
+prefix space	# switch to the next layout
+prefix x		# kill the current pane
+prefix q		# display pane numbers for a short while
+
+###################################################################################################
+###################################################################################################

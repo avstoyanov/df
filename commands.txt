@@ -1,0 +1,45 @@
+python -m SimpleHTTPServer			Creates a simple web page for the current working directory over port 8000.
+python3 -m http.server
+
+mtr									A command which is a combination of ‘ping’ and ‘traceroute’ command.
+Ctrl+x+e							This key combination fires up, an editor in the terminal, instantaneously.
+ss									Outputs Socket Statistics.
+
+curl ifconfig.me					Shows machine’s external IP Address.
+curl ifconfig.me/all
+curl ifconfig.me/ip
+curl -w "\n" ifconfig.me        
+curl ipinfo.io
+wget -qO- icanhazip.com
+
+curl ipinfo.io						Outputs Geographical Information,
+curl ipinfo.io/ip					Geolocate a given IP
+curl ifconfig.me/ip | curl ipinfo.io
+
+curl -Is google.com | grep Date		Current date
+
+curl dict://dict.org/d:foo			Look up deffinition of a word
+
+curl wttr.in/Boston					Weather forecast
+
+pstree								Prints running processes with child processes, recursively.
+<space> command						A space before a bash command, is not recorded in history
+<alt>. and <esc>.					Put the last command argument at prompt, in the order of last entered command, appearing first.
+
+mount | column -t					Lists mounted file system, in nice formatting with specification
+findmnt
+findmnt -l
+
+expr								Solve simple mathematical calculations from the terminal. (expr 5 + 4)
+
+while sleep 1;do tput sc;tput cup 0 $(($(tput cols)-29));date;tput rc;done &		The script outputs date and time on the top right corner of shell/ terminal.
+
+dstat								Generates statistics regarding system resource.
+bind -p								Shows all the shortcuts available in Bash.
+touch /forcefsck					Force file-system check on next boot.
+nc -zv localhost port_num			Check if a specific port is open or not.
+lsof -iTCP:80 -sTCP:LISTEN			The script, outputs all the service/process using port 80.
+ps -LF -u user_name					Outputs Processes and Threads of a user.
+
+
+cmatrix								simple command-line utility that shows a scrolling ‘Matrix‘ like screen in a Linux terminal.
